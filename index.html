@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Can U debug this?</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/javascript-obfuscator/dist/index.browser.js"></script>
+    <script src="./package/min/vs/loader.js"></script>
+    <script src="./methods.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    
+    
+</head>
+
+<body>
+    <h2>Can U debug this?</h2>
+    <div id="original" style="width: 800px; height: 200px; border: 1px solid green;"></div>
+    <div id="modified" style="width: 800px; height: 200px; border: 1px solid red;"></div>
+    <div id="result" style="width: 800px; height: 200px; border: 1px solid blue;"></div>
+    <div>
+        <input type="checkbox" id="shortcut" name="shortcut" checked>
+        <label for="shortcut">shortcut</label>
+    </div>
+    <div>
+        <input type="checkbox" id="trigbreak" name="trigbreak" checked>
+        <label for="trigbreak">trigbreak</label>
+    </div>
+    <div>
+        <input type="checkbox" id="conclear" name="conclear" checked>
+        <label for="conclear">conclear</label>
+    </div>
+    <div>
+        <input type="checkbox" id="modbuilt" name="modbuilt" checked>
+        <label for="modbuilt">modbuilt</label>
+    </div>
+    <div>
+        <input type="checkbox" id="conspam" name="conspam" checked>
+        <label for="conspam">conspam</label>
+    </div>
+    <div>
+        <input type="checkbox" id="widthdiff" name="widthdiff" checked>
+        <label for="widthdiff">widthdiff</label>
+    </div>
+    <div>
+        <input type="checkbox" id="newbreak" name="newbreak" checked>
+        <label for="newbreak">newbreak</label>
+    </div>
+    <div>
+        <input type="checkbox" id="monbreak" name="monbreak" checked>
+        <label for="monbreak">monbreak</label>
+    </div>
+    <div>
+        <input type="checkbox" id="obfuscate" name="obfuscate" checked>
+        <label for="obfuscate">obfuscate</label>
+    </div>
+    <button id="run">run</button>
+    <button id="test">test</button>
+
+
+    <script>
+        require.config({ paths: { vs: "./package/min/vs" } });
+        
+
+        require(["vs/editor/editor.main"], function () {
+            original = monaco.editor.create(document.getElementById("original"), { value: [original_content].join("\n"), language: "html" });
+            modified = monaco.editor.create(document.getElementById("modified"), { value: [modified_content].join("\n"), language: "html" });
+            result = monaco.editor.create(document.getElementById("result"), { value: [""].join("\n"), language: "html" });
+
+            $("#run").on("click", function () {
+                original_content = original.getValue();
+                modified_content = modified.getValue();
+                res = `document.write(\`${original_content}\`);`;
+                if ($("#shortcut").is(':checked')) {
+                    res = res + shortcut;
+                }
+                if ($("#trigbreak").is(':checked')) {
+                    res = res + trigbreak;
+                }
+                if ($("#conclear").is(':checked')) {
+                    res = res + conclear;
+                }
+                if ($("#modbuilt").is(':checked')) {
+                    res = res + modbuilt;
+                }
+                if ($("#widthdiff").is(':checked')) {
+                    res = res + widthdiff;
+                }
+                if ($("#newbreak").is(':checked')) {
+                    res = res + newbreak;
+                }
+                if ($("#monbreak").is(':checked')) {
+                    res = res + monbreak;
+                }
+                if ($("#conspam").is(':checked')) {
+                    res = res + conspam;
+                }
+                if ($("#obfuscate").is(':checked')) {
+                    res = obfuscate(res)
+                }
+                res = `\<script\>` + res + `\<\/script\>`
+                result.setValue(res);
+            })
+
+            $("#test").on("click", function () {
+                test = window.open()
+                test.document.write(result.getValue())
+
+            })
+        });
+
+    </script>
+
+</body>
+
+</html>

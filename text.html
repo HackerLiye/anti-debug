@@ -1,0 +1,17 @@
+<script src="https://cdn.jsdelivr.net/npm/javascript-obfuscator/dist/index.browser.js"></script>
+<script>
+res=JavaScriptObfuscator.obfuscate(
+                        "res",
+                        {
+                            compact: false,
+                            controlFlowFlattening: true,
+                            controlFlowFlatteningThreshold: 1,
+                            numbersToExpressions: true,
+                            simplify: true,
+                            stringArrayShuffle: true,
+                            splitStrings: true,
+                            stringArrayThreshold: 1
+                        }
+                    );
+                    console.log(res.getObfuscatedCode());
+</script>
