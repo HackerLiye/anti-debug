@@ -1,6 +1,7 @@
 // all code snippets are from https://js-antidebug.github.io/
 
-original_content = `<style>
+original_content = `<!-- replace this with original contents -->
+<style>
 .center {
     position: absolute;
     top: 50%;
@@ -15,7 +16,8 @@ original_content = `<style>
 <p class="center">Original Content</p>
 `
 
-modified_content = `<style>
+modified_content = `<!-- replace this with modified contents -->
+<style>
     .center {
         position: absolute;
         top: 50%;
@@ -29,6 +31,8 @@ modified_content = `<style>
 </style>
 <p class="center">Modified Content</p>
 `
+
+result_placeholder = `<!-- after clicking "Obfuscate", the obfuscation result will appear here -->`
 
 shortcut = `
 window.addEventListener('keydown', function(event){ 
@@ -245,3 +249,53 @@ function obfuscate(res) {
     );
     return res.getObfuscatedCode();
 }
+
+require.config({ paths: { vs: "./package/min/vs" } });
+
+
+require(["vs/editor/editor.main"], function () {
+    original = monaco.editor.create(document.getElementById("original"), { value: [original_content].join("\n"), language: "html" });
+    modified = monaco.editor.create(document.getElementById("modified"), { value: [modified_content].join("\n"), language: "html" });
+    result = monaco.editor.create(document.getElementById("result"), { value: [result_placeholder].join("\n"), language: "html" });
+
+    $("#run").on("click", function () {
+        original_content = original.getValue();
+        modified_content = modified.getValue();
+        res = `document.write(\`${original_content}\`);`;
+        if ($("#shortcut").is(':checked')) {
+            res = res + shortcut;
+        }
+        if ($("#trigbreak").is(':checked')) {
+            res = res + trigbreak;
+        }
+        if ($("#conclear").is(':checked')) {
+            res = res + conclear;
+        }
+        if ($("#modbuilt").is(':checked')) {
+            res = res + modbuilt;
+        }
+        if ($("#widthdiff").is(':checked')) {
+            res = res + widthdiff;
+        }
+        if ($("#newbreak").is(':checked')) {
+            res = res + newbreak;
+        }
+        if ($("#monbreak").is(':checked')) {
+            res = res + monbreak;
+        }
+        if ($("#conspam").is(':checked')) {
+            res = res + conspam;
+        }
+        if ($("#obfuscate").is(':checked')) {
+            res = obfuscate(res)
+        }
+        res = `\<script\>` + res + `\<\/script\>`
+        result.setValue(res);
+    })
+
+    $("#test").on("click", function () {
+        test = window.open()
+        test.document.write(result.getValue())
+
+    })
+});

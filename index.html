@@ -8,107 +8,175 @@
     <script src="./package/min/vs/loader.js"></script>
     <script src="./methods.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    
-    
+    <link rel="stylesheet" href="./style.css">
 </head>
 
-<body>
-    <h2>Can U debug this?</h2>
-    <div id="original" style="width: 800px; height: 200px; border: 1px solid green;"></div>
-    <div id="modified" style="width: 800px; height: 200px; border: 1px solid red;"></div>
-    <div id="result" style="width: 800px; height: 200px; border: 1px solid blue;"></div>
-    <div>
-        <input type="checkbox" id="shortcut" name="shortcut" checked>
-        <label for="shortcut">shortcut</label>
-    </div>
-    <div>
-        <input type="checkbox" id="trigbreak" name="trigbreak" checked>
-        <label for="trigbreak">trigbreak</label>
-    </div>
-    <div>
-        <input type="checkbox" id="conclear" name="conclear" checked>
-        <label for="conclear">conclear</label>
-    </div>
-    <div>
-        <input type="checkbox" id="modbuilt" name="modbuilt" checked>
-        <label for="modbuilt">modbuilt</label>
-    </div>
-    <div>
-        <input type="checkbox" id="conspam" name="conspam" checked>
-        <label for="conspam">conspam</label>
-    </div>
-    <div>
-        <input type="checkbox" id="widthdiff" name="widthdiff" checked>
-        <label for="widthdiff">widthdiff</label>
-    </div>
-    <div>
-        <input type="checkbox" id="newbreak" name="newbreak" checked>
-        <label for="newbreak">newbreak</label>
-    </div>
-    <div>
-        <input type="checkbox" id="monbreak" name="monbreak" checked>
-        <label for="monbreak">monbreak</label>
-    </div>
-    <div>
-        <input type="checkbox" id="obfuscate" name="obfuscate" checked>
-        <label for="obfuscate">obfuscate</label>
-    </div>
-    <button id="run">run</button>
-    <button id="test">test</button>
+<body class="">
+    <div id='write' class=''>
+        <h1>Can U debug this?</h1>
+        <h2>An anti-debugging JavaScript obfuscator</h2>
+        <p>&nbsp;</p>
+        <h3>Introduction</h3>
+        <p>
+            First put the original web content into the original content editor, then put the content you want to
+            display after detecting DevTools into the modified content editor, select the anti-debug techniques you
+            want to apply, click Generate and then you can see the obfuscated result in the result editor.
+        </p>
+        <p>
+            You can also click the Test button after generating the obfuscated result to perform a quick test.
+        </p>
+        <h3>Original Content</h3>
+        <div id="original" style="width:90%; height: 200px; margin:auto; border: 1px solid green;"></div>
+
+        <h3>Modified Content</h3>
+        <div id="modified" style="width:90%; height: 200px; margin:auto; border: 1px solid red;"></div>
+
+        <h3>Obfuscation Result</h3>
+        <div id="result" style="width:90%; height: 200px; margin:auto; border: 1px solid blue;"></div>
+
+        <h3>Anti-debugging Techniques</h3>
+        <p>Technologies marked in <span class="detect">red</span> can detect the occurrence of DevTools, meaning that
+            changes can be made to web content after DevTools are detected.</p>
+
+        <h4>Basic Techniques</h4>
+        <div class="flex-container">
+            <div>
+                <input type="checkbox" id="shortcut" name="shortcut" checked>
+                <label for="shortcut">Preventing Shortcuts</label><a href="#shortcut-help"><span
+                        class="help">?</span></a>
+            </div>
+            <div>
+                <input type="checkbox" id="trigbreak" name="trigbreak" checked>
+                <label for="trigbreak">Triggering Breakpoints</label><a href="#trigbreak-help"><span
+                        class="help">?</span></a>
+            </div>
+            <div>
+                <input type="checkbox" id="conclear" name="conclear" checked>
+                <label for="conclear">Clearing the Console</label><a href="#conclear-help"><span
+                        class="help">?</span></a>
+            </div>
+            <div>
+                <input type="checkbox" id="modbuilt" name="modbuilt" checked>
+                <label for="modbuilt">Modifying Built-ins</label><a href="#modbuilt-help"><span
+                        class="help">?</span></a>
+            </div>
+
+            <div>
+                <input type="checkbox" id="widthdiff" name="widthdiff" checked>
+                <label for="widthdiff"><span class="detect">Inner vs. OuterWidth</span></label><a
+                    href="#widthdiff-help"><span class="help">?</span></a>
+            </div>
+        </div>
+        <h4>Advanced Techniques</h4>
+        <div class="flex-container">
+            <div>
+                <input type="checkbox" id="monbreak" name="monbreak" checked>
+                <label for="monbreak"><span class="detect">Monitor Existing Breakpoint</span></label><a
+                    href="#monbreak-help"><span class="help">?</span></a>
+            </div>
+            <div>
+                <input type="checkbox" id="newbreak" name="newbreak" checked>
+                <label for="newbreak"><span class="detect">Wait for New Breakpoint</span></label><a
+                    href="#newbreak-help"><span class="help">?</span></a>
+            </div>
+
+            <div>
+                <input type="checkbox" id="conspam" name="conspam" checked>
+                <label for="conspam"><span class="detect">Console Spamming</span></label><a href="#conspam-help"><span
+                        class="help">?</span></a>
+            </div>
+        </div>
+        <h4>Obfuscate</h4>
+        <div>
+            <input type="checkbox" id="obfuscate" name="obfuscate" checked>
+            <label for="obfuscate">Obfuscate</label>
+        </div>
+        <div class="flex-container-center">
+        <button class="button" id="run">Obfuscate</button>
+        <button class="button" id="test">Test</button>
+        </div> 
+
+        <h2>Anti-debugging Techniques Description</h2>
+        <h3 id="shortcut-help">Preventing Shortcuts</h3>
+        <h4>Description</h4>
+        <p>This technique disables the shortcuts F12, Ctrl+Shift+I, Ctrl+Shift+J, and Ctrl+U as well as right-clicking.
+        </p>
+        <h4>Impact</h4>
+        <p>This is the most basic technique and has the least impact, as it is so simple to circumvent. Opening the
+            DevTools through the hamburger menu, or opening them before loading the page still works.</p>
+
+        <h3 id="trigbreak-help">Triggering Breakpoints</h3>
+        <h4>Description</h4>
+        <p>This technique will constantly trigger breakpoints. The implementation is very minimalistic, but does the
+            job.</p>
+        <h4>Impact</h4>
+        <p>This can be very annoying, but the effect is also very obvious. If there are only a few breakpoints in the
+            whole code, you can use the "never pause here" functionality of the DevTools.</p>
+
+        <h3 id="conclear-help">Clearing the Console</h3>
+        <h4>Description</h4>
+        <p>This technique will constantly clear the console, making it harder to debug JavaScript code via console.log
+            and similar functions.</p>
+        <h4>Impact</h4>
+        <p>As it can be circumvented by setting the "Preserve log" function, its impact is only minor.</p>
+
+        <h3 id="modbuilt-help">Modifying Built-ins</h3>
+        <h4>Description</h4>
+        <p>This technique modifies built-in functions to make them behave differently than expected. This implementation
+            changes the behavior of console.log to output nothing</p>
+        <h4>Impact</h4>
+        <p>This is a bit annoying but not too problematic.</p>
+
+        <h3 id="widthdiff-help">Inner vs. OuterWidth</h3>
+        <h4>Description</h4>
+        <p>This technique detects the opening of the DevTools by comparing the inner- and outerWidth of the window.</p>
+        <h4>Impact</h4>
+        <p>This technique, at least in theory, could be effective, as it could stealthily alter the behavior of the code
+            as soon as open DevTools are detected. For example, this could prevent malicious code to trigger in the
+            first place. However, this implementation in particular can be tricked by opening the DevTools in "detached"
+            mode, i.e. in a separate window.</p>
+
+        <h3 id="monbreak-help">Monitor Existing Breakpoint</h3>
+        <h4>Description</h4>
+        <p>This technique detects the opening of the DevTools by constantly check the time before and after a
+            breakpoint. If the breakpoint is hit (which are enabled by default) we know that the DevTools must be open.
+            The static threshold might not work well on all devices and the technique might also report a false positive
+            if you switch to another tab.</p>
+        <h4>Impact</h4>
+        <p>This technique could also be abused to modify the content and script behavior on-the-fly only for people
+            trying to analyze the website. However, the breakpoint might be suspicious.</p>
+
+        <h3 id="newbreak-help">Wait for New Breakpoint</h3>
+        <h4>Description</h4>
+        <p>This technique is basically the opposite of MonBreak: it detects if someone opens the DevTools and then sets
+            a breakpoint.</p>
+        <h4>Impact</h4>
+        <p>This technique is more stealthy than MonBreak, but on the other hand useless unless somebody sets a
+            breakpoint. As with previous techniques that detect the DevTools/debugger, this could be abused to make the
+            website behave differently under analysis.</p>
 
 
-    <script>
-        require.config({ paths: { vs: "./package/min/vs" } });
-        
+        <h3 id="conspam-help">Console Spamming</h3>
+        <h4>Description</h4>
+        <p>Opening the DevTools slows down the console, triggering this technique. This specific implementation
+            calculates a baseline and thus only works if they are not open from the beginning already.</p>
+        <h4>Impact</h4>
+        <p>As with previous techniques, this one could be abused to hide client-side attacks.</p>
 
-        require(["vs/editor/editor.main"], function () {
-            original = monaco.editor.create(document.getElementById("original"), { value: [original_content].join("\n"), language: "html" });
-            modified = monaco.editor.create(document.getElementById("modified"), { value: [modified_content].join("\n"), language: "html" });
-            result = monaco.editor.create(document.getElementById("result"), { value: [""].join("\n"), language: "html" });
+        <h2>References</h2>
+        <ol>
+            <li>
+                https://js-antidebug.github.io/
+            </li>
+            <li>
+                https://obfuscator.io/
+            </li>
+            <li>
+                https://www.usenix.org/system/files/sec21-musch.pdf
+            </li>
+        </ol>    
+    </div>
 
-            $("#run").on("click", function () {
-                original_content = original.getValue();
-                modified_content = modified.getValue();
-                res = `document.write(\`${original_content}\`);`;
-                if ($("#shortcut").is(':checked')) {
-                    res = res + shortcut;
-                }
-                if ($("#trigbreak").is(':checked')) {
-                    res = res + trigbreak;
-                }
-                if ($("#conclear").is(':checked')) {
-                    res = res + conclear;
-                }
-                if ($("#modbuilt").is(':checked')) {
-                    res = res + modbuilt;
-                }
-                if ($("#widthdiff").is(':checked')) {
-                    res = res + widthdiff;
-                }
-                if ($("#newbreak").is(':checked')) {
-                    res = res + newbreak;
-                }
-                if ($("#monbreak").is(':checked')) {
-                    res = res + monbreak;
-                }
-                if ($("#conspam").is(':checked')) {
-                    res = res + conspam;
-                }
-                if ($("#obfuscate").is(':checked')) {
-                    res = obfuscate(res)
-                }
-                res = `\<script\>` + res + `\<\/script\>`
-                result.setValue(res);
-            })
-
-            $("#test").on("click", function () {
-                test = window.open()
-                test.document.write(result.getValue())
-
-            })
-        });
-
-    </script>
 
 </body>
 
