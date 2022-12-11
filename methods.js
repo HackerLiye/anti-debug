@@ -1,5 +1,6 @@
 // all code snippets are from https://js-antidebug.github.io/
 
+// the content to be displayed without DevTools detection
 original_content = `<!-- replace this with original contents -->
 <style>
 .center {
@@ -16,6 +17,7 @@ original_content = `<!-- replace this with original contents -->
 <p class="center">Original Content</p>
 `
 
+// the content to be displayed after DevTools detection
 modified_content = `<!-- replace this with modified contents -->
 <style>
     .center {
@@ -32,8 +34,10 @@ modified_content = `<!-- replace this with modified contents -->
 <p class="center">Modified Content</p>
 `
 
+// to avoid ampty editor, we need a placeholder in the result area
 result_placeholder = `<!-- after clicking "Obfuscate", the obfuscation result will appear here -->`
 
+// This technique disables the shortcuts F12, Ctrl+Shift+I, Ctrl+Shift+J, and Ctrl+U as well as right-clicking.
 shortcut = `
 window.addEventListener('keydown', function(event){ 
     console.log(event);
@@ -48,6 +52,7 @@ window.addEventListener('contextmenu', function(event){
 });
 `
 
+// This technique will constantly trigger breakpoints. The implementation is very minimalistic, but does the job.
 trigbreak = `
 function debug() {
     debugger;
@@ -56,6 +61,7 @@ function debug() {
 debug();
 `
 
+// This technique will constantly clear the console, making it harder to debug JavaScript code via console.log and similar functions.
 conclear = `
 function clear() {
     console.clear();
@@ -64,6 +70,7 @@ function clear() {
 clear();
 `
 
+// This technique modifies built-in functions to make them behave differently than expected. This implementation changes the behavior of console.log to output nothing
 modbuilt = `
 var _0x4bde55 = function () {
     var _0x16e614 = !![];
@@ -118,6 +125,7 @@ _0x54fe5d();
 console['log']('This\x20message\x20will\x20not\x20appear,\x20as\x20the\x20console\x20is\x20disabled!');
 `
 
+// This technique detects the opening of the DevTools by comparing the inner- and outerWidth of the window.
 widthdiff = `
 /*!
 https://github.com/sindresorhus/devtools-detect
@@ -175,6 +183,7 @@ MIT License
 })();
 `
 
+// This technique detects the opening of the DevTools by constantly check the time before and after a breakpoint. If the breakpoint is hit (which are enabled by default) we know that the DevTools must be open. The static threshold might not work well on all devices and the technique might also report a false positive if you switch to another tab.
 monbreak = `
 addEventListener("load", () => {
     var threshold = 500;
@@ -191,6 +200,7 @@ addEventListener("load", () => {
 });
 `
 
+// This technique is basically the opposite of MonBreak: it detects if someone opens the DevTools and then sets a breakpoint.
 newbreak = `
 var timeSinceLast;
 addEventListener("load", () => {
@@ -210,6 +220,7 @@ addEventListener("load", () => {
 });
 `
 
+// Opening the DevTools slows down the console, triggering this technique. This specific implementation calculates a baseline and thus only works if they are not open from the beginning already.
 conspam = `
 var baseline;
 function measure() {
@@ -232,6 +243,7 @@ function measure() {
 measure();
 `
 
+// this is the parameter when calling obfucator.io
 function obfuscate(res) {
 
     res = JavaScriptObfuscator.obfuscate(
